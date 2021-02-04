@@ -3,7 +3,6 @@ from rq.registry import BaseRegistry as rqBaseRegistry, StartedJobRegistry as rq
     DeferredJobRegistry as rqDeferredJobRegistry, FinishedJobRegistry as rqFinishedJobRegistry
 from rq.exceptions import InvalidJobOperation
 
-import warnings
 import rq
 
 from .queue import Queue
@@ -22,7 +21,6 @@ class StartedJobRegistry(rqStartedJobRegistry):
 
 class FailedJobRegistry(rqFailedJobRegistry):
     key_template = 'rq:failed:{0}'+'{}'.format(DEFAULT_NAMESPACE)
-    Queue = Queue
 
     def requeue(self, job_or_id):
         """Requeues the job with the given job ID."""
@@ -50,7 +48,7 @@ class DeferredJobRegistry(rqDeferredJobRegistry):
     key_template = 'rq:deferred:{0}'+'{}'.format(DEFAULT_NAMESPACE)
 
     def __init__(self):
-        warnings.warn('rq-wrapper does not support deferred jobs')
+        raise Exception('rq-wrapper does not support deferred jobs')
 
 
 class ScheduledJobRegistry(rqScheduledJobRegistry):
