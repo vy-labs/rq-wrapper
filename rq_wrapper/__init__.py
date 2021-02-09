@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 from .queue import Queue
 from .version import VERSION
-from .job import Job
+from .job import Job, requeue_job
 from .registry import BaseRegistry, StartedJobRegistry, ScheduledJobRegistry, FinishedJobRegistry, FailedJobRegistry, \
     DeferredJobRegistry
 from .worker import Worker
