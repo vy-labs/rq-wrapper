@@ -1,4 +1,6 @@
 from rq.queue import Queue as rqQueue
+from rq.compat import as_text
+from redis import WatchError
 
 from .defaults import DEFAULT_NAMESPACE, DEFAULT_QUEUE_TIMEOUT
 from .job import Job
@@ -32,7 +34,7 @@ class Queue(rqQueue):
     def deferred_job_registry(self):
         """Returns this queue's DeferredJobRegistry."""
         from .registry import DeferredJobRegistry
-        return DeferredJobRegistry()
+        return DeferredJobRegistry(queue=self, job_class=self.job_class)
 
     @property
     def scheduled_job_registry(self):
@@ -54,3 +56,65 @@ class Queue(rqQueue):
         if pipeline is None:
             pipe.execute()
         return job
+
+    def enqueue_dependents(self, job, pipeline=None):
+        """Enqueues all jobs in the given job's dependents set and clears it.
+
+        When called without a pipeline, this method uses WATCH/MULTI/EXEC.
+        If you pass a pipeline, only MULTI is called. The rest is up to the
+        caller.
+        """
+        from .registry import DeferredJobRegistry
+
+        pipe = pipeline if pipeline is not None else self.connection.pipeline()
+        dependents_key = job.dependents_key
+
+        while True:
+            try:
+                # if a pipeline is passed, the caller is responsible for calling WATCH
+                # to ensure all jobs are enqueued
+                if pipeline is None:
+                    pipe.watch(dependents_key)
+
+                dependent_job_ids = [as_text(_id)
+                                     for _id in pipe.smembers(dependents_key)]
+
+                jobs_to_enqueue = [
+                    dependent_job for dependent_job
+                    in self.job_class.fetch_many(
+                        dependent_job_ids,
+                        connection=self.connection,
+                        serializer=self.serializer
+                    ) if dependent_job.dependencies_are_met(
+                        exclude_job_id=job.id,
+                        pipeline=pipe
+                    )
+                ]
+
+                pipe.multi()
+
+                for dependent in jobs_to_enqueue:
+                    registry = DeferredJobRegistry(dependent.origin,
+                                                   self.connection,
+                                                   job_class=self.job_class)
+                    registry.remove(dependent, pipeline=pipe)
+                    if dependent.origin == self.name:
+                        self.enqueue_job(dependent, pipeline=pipe)
+                    else:
+                        queue = self.__class__(name=dependent.origin, connection=self.connection)
+                        queue.enqueue_job(dependent, pipeline=pipe)
+
+                pipe.delete(dependents_key)
+
+                if pipeline is None:
+                    pipe.execute()
+
+                break
+            except WatchError:
+                if pipeline is None:
+                    continue
+                else:
+                    # if the pipeline comes from the caller, we re-raise the
+                    # exception as it it the responsibility of the caller to
+                    # handle it
+                    raise
