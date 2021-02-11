@@ -47,9 +47,6 @@ class FailedJobRegistry(rqFailedJobRegistry):
 class DeferredJobRegistry(rqDeferredJobRegistry):
     key_template = 'rq:deferred:{0}'+'{}'.format(DEFAULT_NAMESPACE)
 
-    def __init__(self):
-        raise Exception('rq-wrapper does not support deferred jobs')
-
 
 class ScheduledJobRegistry(rqScheduledJobRegistry):
     key_template = 'rq:scheduled:{0}'+'{}'.format(DEFAULT_NAMESPACE)
