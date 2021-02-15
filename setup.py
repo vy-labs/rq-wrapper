@@ -24,7 +24,7 @@ def get_requirements():
 
 setup(
     name='rq_wrapper',
-    version=get_version(),
+    # version=get_version(),
     author='',
     author_email='',
     description='RQ-Wrapper is a wrapper for RQ to introduce environment variables.',
@@ -37,7 +37,7 @@ setup(
     entry_points={
         'console_scripts': [
             'rq_wrapper = rq_wrapper.cli:main',
-            'rq_dashboard = dashboard.cli'
+            'local_dashboard = dashboard.cli'
         ],
     },
 )
