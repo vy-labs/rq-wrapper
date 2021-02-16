@@ -37,7 +37,7 @@ setup(
     entry_points={
         'console_scripts': [
             'rq_wrapper = rq_wrapper.cli:main',
-            'local_dashboard = dashboard.cli'
+            'local_dashboard = rq_wrapper.dashboard.cli'
         ],
     },
 )
