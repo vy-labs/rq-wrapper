@@ -7,8 +7,9 @@ from rq_wrapper.settings import namespace
 
 class Queue(RqQueue):
 
-    def __init__(self, *_args, **kwargs):
-        super().__init__(name=namespace, **kwargs)
+    def __init__(self, *_args, JOB_ID=None, **kwargs):
+        name = JOB_ID if JOB_ID else namespace
+        super().__init__(name=name, **kwargs)
 
     @classmethod
     def all(cls, connection=None, job_class=None, serializer=None):
