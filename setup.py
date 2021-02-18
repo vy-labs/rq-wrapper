@@ -1,4 +1,5 @@
 import os
+
 from setuptools import setup, find_packages
 
 
@@ -37,7 +38,7 @@ setup(
     entry_points={
         'console_scripts': [
             'rq_wrapper = rq_wrapper.cli:main',
-            'rq_dashboard = dashboard.cli'
+            'local_dashboard = rq_wrapper.dashboard.cli'
         ],
     },
 )
