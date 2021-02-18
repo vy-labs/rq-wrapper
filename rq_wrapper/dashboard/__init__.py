@@ -1,4 +1,3 @@
-import rq
 import rq_dashboard.compat
 
 from rq_wrapper.rq_queue import Queue

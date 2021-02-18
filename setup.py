@@ -1,4 +1,5 @@
 import os
+
 from setuptools import setup, find_packages
 
 
@@ -24,7 +25,7 @@ def get_requirements():
 
 setup(
     name='rq_wrapper',
-    # version=get_version(),
+    version=get_version(),
     author='',
     author_email='',
     description='RQ-Wrapper is a wrapper for RQ to introduce environment variables.',

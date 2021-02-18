@@ -96,3 +96,13 @@ Job result = 818
 ```
 JOB_ID=<job_id> rq_wrapper worker
 ```
+
+## Dashboard
+
+#### Usage
+```shell
+RQ_NAMESPACE=<queue_name> local_dashboard
+```
+
+
+
