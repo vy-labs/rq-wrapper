@@ -1,4 +1,4 @@
-python-dotenv==0.6.4
+python-dotenv>=0.6.4
 rq~=1.7.0
 redis~=3.5.3
 setuptools~=52.0.0
