@@ -37,7 +37,7 @@ setup(
     python_requires='>=3.5',
     entry_points={
         'console_scripts': [
-            'rq_wrapper = rq.cli:main',
+            'rq_wrapper = rq_wrapper.cli:main',
             'dashboard = rq_wrapper.dashboard.cli:main'
         ],
     },
