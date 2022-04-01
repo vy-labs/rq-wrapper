@@ -4,4 +4,4 @@ redis~=4.1.0
 setuptools~=52.0.0
 click~=7.1.2
 rq-dashboard~=0.6.1
-structlog-wrapper@git+https://github.com/ankitkr/structlog-wrapper.git@v1.2.0#egg=structlog-wrapper
+structlog-wrapper@git+https://github.com/vy-labs/structlog-wrapper.git@v1.0.0#egg=structlog-wrapper

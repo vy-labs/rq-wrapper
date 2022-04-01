@@ -5,9 +5,9 @@ from rq.worker import compact
 from structlog_wrapper.python import configure_struct_logging
 
 from rq_wrapper.rq_queue import Queue
-from rq_wrapper.settings import namespace, app_name, app_type, environment, log_level
+from rq_wrapper.settings import namespace, app_name, app_type, environment, log_level, formatter
 
-configure_struct_logging(app_name, app_type, environment, log_level=log_level)
+configure_struct_logging(app_name, app_type, environment, log_level=log_level, formatter=formatter)
 logger = structlog.getLogger(__name__)
 
 
