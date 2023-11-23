@@ -4,15 +4,15 @@ from functools import wraps
 
 from rq import decorators
 from rq.compat import string_types
-from rq.defaults import DEFAULT_RESULT_TTL
 from rq.utils import backend_class
 from rq_wrapper.rq_queue import Queue
+from rq_wrapper.settings import DEFAULT_RQ_RESULT_TTL
 
 
 class job(decorators.job):
     queue_class = Queue
 
-    def __init__(self, queue, connection=None, timeout=None, result_ttl=DEFAULT_RESULT_TTL, ttl=None,
+    def __init__(self, queue, connection=None, timeout=None, result_ttl=DEFAULT_RQ_RESULT_TTL, ttl=None,
                  queue_class=None, depends_on=None, at_front=None, meta=None, description=None, failure_ttl=None,
                  retry=None, on_success=None, on_failure=None):
         """A decorator that adds a ``delay`` method to the decorated function,

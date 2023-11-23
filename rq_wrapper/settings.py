@@ -6,3 +6,5 @@ formatter = os.getenv('FORMATTER', None)
 log_level = os.getenv('LOG_LEVEL') or 'INFO'
 environment = os.getenv('ENVIRONMENT') or 'DEVELOPMENT'
 namespace = os.getenv('RQ_NAMESPACE') or os.getenv('JOB_ID') or 'default'
+
+DEFAULT_RQ_RESULT_TTL = int(os.getenv('DEFAULT_RQ_RESULT_TTL', 1200))
