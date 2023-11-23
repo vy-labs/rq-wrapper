@@ -3,7 +3,7 @@ from rq import Queue as RqQueue
 from rq.compat import as_text
 from rq.connections import resolve_connection
 
-from rq_wrapper.settings import DEFAULT_RQ_RESULT_TTL, namespace
+from rq_wrapper.settings import RQ_RESULT_TTL, namespace
 
 logger = structlog.getLogger(__name__)
 
@@ -14,7 +14,7 @@ class Queue(RqQueue):
         super().__init__(name=name, **kwargs)
 
     def enqueue_call(self, func, args=None, kwargs=None, timeout=None,
-                     result_ttl=DEFAULT_RQ_RESULT_TTL, ttl=None, failure_ttl=None, description=None,
+                     result_ttl=RQ_RESULT_TTL, ttl=None, failure_ttl=None, description=None,
                      depends_on=None, job_id=None, at_front=False, meta=None,
                      retry=None, on_success=None, on_failure=None, pipeline=None):
         job = super(Queue, self).enqueue_call(func, args=args, kwargs=kwargs, timeout=timeout, result_ttl=result_ttl,

@@ -6,7 +6,7 @@ from rq.worker import compact
 from structlog_wrapper.python import configure_struct_logging
 
 from rq_wrapper.rq_queue import Queue
-from rq_wrapper.settings import DEFAULT_RQ_RESULT_TTL, namespace, app_name, app_type, environment, log_level, formatter
+from rq_wrapper.settings import RQ_RESULT_TTL, namespace, app_name, app_type, environment, log_level, formatter
 
 configure_struct_logging(app_name, app_type, environment, log_level=log_level, formatter=formatter)
 logger = structlog.getLogger(__name__)
@@ -16,7 +16,7 @@ class Worker(RqWorker):
     queue_class = Queue
     def __init__(self, queues, 
                  name=None, 
-                 default_result_ttl=DEFAULT_RQ_RESULT_TTL, 
+                 default_result_ttl=RQ_RESULT_TTL, 
                  connection=None, 
                  exc_handler=None, 
                  exception_handlers=None, 
