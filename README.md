@@ -26,8 +26,12 @@ pip install -e path-to-rq-wrapper
 ## Use rq-wrapper
 
 - First run a redis server
-```
+```bash
+# Using Command line Tool
 redis-server
+
+# Using docker
+docker run -d -p 6379:6379 redis
 ```
 
 - Define a function
@@ -47,7 +51,7 @@ def count_words_at_url(url):
 from redis import Redis
 from rq_wrapper import Queue
 
-queue = Queue(job_id=<JOB_ID>, connection=Redis())
+queue = Queue(job_id='123', connection=Redis())
 ```
 
 - Enqueue the function call
