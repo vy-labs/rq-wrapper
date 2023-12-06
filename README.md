@@ -51,7 +51,7 @@ def count_words_at_url(url):
 from redis import Redis
 from rq_wrapper import Queue
 
-queue = Queue(job_id='123', connection=Redis())
+queue = Queue(job_id=<JOB_ID>, connection=Redis())
 ```
 
 - Enqueue the function call
